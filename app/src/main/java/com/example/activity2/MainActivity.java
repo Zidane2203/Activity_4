@@ -1,8 +1,11 @@
 package com.example.activity2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,19 +38,56 @@ public class MainActivity extends AppCompatActivity {
                 String email="admin@gmail.com";
                 String pass="123";
 
-                if (Email.equals(email) && Password.equals(pass))
+                if (Email.equals(email) || Password.equals(pass))
                 {
                     Toast t = Toast.makeText(getApplicationContext(),
-                            text: "Login Sukses", Toast.LENGTH_LONG);
+                            "Login Sukses", Toast.LENGTH_LONG);
                     t.show();
                 }
                 else
                 {
-                    Toast t = Toast.makeText(getApplicationContext(),
-                            text: "Login Gagal", Toast.LENGTH_LONG);
-                    t.show();
+                    if (email.equals(email) && Password.equals(pass))
+                    {
+                        Toast t = Toast.makeText(getApplicationContext(),
+                                "Login Gagal", Toast.LENGTH_LONG);
+                        t.show();
+
+                        Bundle b = new Bundle();
+
+                        b.putString("a", email.trim());
+
+                        b.putString("b", Password.trim());
+
+                        Intent i = new Intent(getApplicationContext(), ActivityHasil.class);
+
+                        i.putExtras(b);
+
+                        startActivity(i);
+                    } else {
+
+                        Toast t = Toast.makeText(getApplicationContext(),
+                                "LOGIN GAGAL", Toast.LENGTH_LONG);
+
+                        t.show();
+                    }
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.mnDaftar)
+        {
+            Intent i = new Intent(getApplicationContext(), Pendaftaran.class);
+            startActivity(i);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
